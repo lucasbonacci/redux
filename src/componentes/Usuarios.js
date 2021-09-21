@@ -1,13 +1,17 @@
 import React, {useEffect} from 'react'
 import { connect } from 'react-redux'
-import * as usuariosActions from '../../actions/usuariosActions'
+import * as usuariosActions from '../actions/usuariosActions'
+import { Link } from 'react-router-dom'
 
 const Usuarios = ({getUsuarios, usuarios, loading}) =>{
 
     useEffect(() =>{
-        getUsuarios()
+      if(!usuarios.length){
+      getUsuarios()
+      }
     }, [])
-    console.log(loading)
+
+
     return(
     <div className='margen'>
     <table className='tabla'>
@@ -22,10 +26,13 @@ const Usuarios = ({getUsuarios, usuarios, loading}) =>{
           <th>
             Enlace
           </th>
+          <th>
+            Publicaciones
+          </th>
         </tr>
       </thead>
       <tbody>
-        {!loading?usuarios?.map( usuario =>{
+        {!loading?usuarios?.map( (usuario, index) =>{
         return(
       <tr key={usuario.id}>
         <td>
@@ -36,6 +43,9 @@ const Usuarios = ({getUsuarios, usuarios, loading}) =>{
         </td>
         <td>
           {usuario.website}
+        </td>
+        <td>
+          <Link to={`/publicaciones/${index}`}>Ver publicaciones</Link>
         </td>
       </tr>
       )}):<p>cargando...</p>}
